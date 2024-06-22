@@ -1,0 +1,35 @@
+<div class="heading">
+    <h1>To-Do-LIST</h1>
+</div>
+
+<div class="Tasks">
+    <label for="text">Tasks</label>
+    <input type="text" placeholder="add new task" [(ngModel)]='tasks'>
+    <button (click)="addTask()">Add</button>
+</div>
+
+<div *ngIf="todo.length; else noTasks" class="tasks-list">
+    <h1>List of Tasks</h1>
+    <div *ngFor="let task of todo; let i = index">
+        <input type="checkbox" [(ngModel)]="task.completed" (change)="toggleCompleteTask(i)">
+        <p *ngIf="editIndex !== i && !task.completed">{{ task.tasks }}</p>
+        <p *ngIf="editIndex !== i && task.completed" style="text-decoration: line-through;">{{ task.tasks }}</p>
+        <input *ngIf="editIndex === i" type="text" [(ngModel)]="editTaskText">
+        <button *ngIf="editIndex !== i" (click)="deleteTask(i)" class="delete-btn">Delete</button>
+        <button *ngIf="editIndex !== i && !task.completed" (click)="editTask(i)" class="edit-btn">Edit</button>
+        <button *ngIf="editIndex === i" (click)="saveTask(i)" class="save-btn">Save</button>
+        <button *ngIf="editIndex === i" (click)="cancelEdit()" class="cancel-btn">Cancel</button>
+    </div>
+</div>
+<ng-template #noTasks>
+    <i>No tasks available!</i>
+</ng-template>
+
+<div *ngIf="completedTasks.length" class="completed-tasks">
+    <h1>Completed Tasks</h1>
+    <div *ngFor="let task of completedTasks; let i = index">
+        <p style="text-decoration: line-through;">{{ task.tasks }}</p>
+    </div>
+</div>
+
+
